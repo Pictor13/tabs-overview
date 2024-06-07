@@ -1,0 +1,18 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 10px;
+}
+
+.window {
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding-left: 20px;
+  position: relative;
+}
+
+.tab button {
+  position: absolute;
+  right: 0;
+}

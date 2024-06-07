@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Tabs Overview",
+  "version": "1.0",
+  "description": "Lists all tabs from all windows, possibly grouped and indented by TreeStyleTabs structure.",
+  "permissions": ["tabs", "storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Tabs Overview",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "48": "icon.png"
+  },
+  "commands": {
+    "open_tab_manager": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+M",
+        "mac": "Command+Shift+M"
+      },
+      "description": "Open Tab Manager"
+    }
+  }
+}
