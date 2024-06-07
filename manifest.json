@@ -5,7 +5,9 @@
   "description": "Lists all tabs from all windows, possibly grouped and indented by TreeStyleTabs structure.",
   "permissions": ["tabs", "storage"],
   "background": {
-    "service_worker": "background.js"
+    "scripts": [
+      "background.js"
+    ]
   },
   "action": {
     "default_title": "Tabs Overview",
