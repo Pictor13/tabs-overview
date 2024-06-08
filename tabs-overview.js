@@ -14,7 +14,7 @@ const tabsOverview = document.getElementById("tab-list");
 
 header.querySelector('#close-selected-tabs').onclick = () => {
   tabsOverview?.querySelectorAll('.tab input:checked').forEach(check => {
-    check.replaceWith(createElement(`<img src="spinner.gif" alt="Loading...">`));
+    check.replaceWith(createElement(`<img src="spinner.gif" alt="Loading..." class="spinner">`));
     closeTab(check.value, ()=>{});
   });
   updateTabsOverview();
@@ -60,11 +60,14 @@ function updateTabsOverview() {
     if (tab.querySelector('button') instanceof Element === false) {
       console.log("WTF", tab instanceof Element, tab, tab.querySelector('button'), tab.querySelector('button'), tab.innerHTML);
     }
+    const check = tab.querySelector('input');
     tab.querySelector('span').innerHTML = browserTab.title;
-    tab.querySelector('button').onclick = () => closeTab(browserTab.id);
+    tab.querySelector('button').onclick = () => {
+      check.replaceWith(createElement(`<img src="spinner.gif" alt="Loading..." class="spinner">`));
+      closeTab(browserTab.id);
+    }
     tab.onclick = () => {
-      const input = tab.querySelector('input');
-      input.checked = input.checked ? '' : 'checked';
+      check.checked = check.checked ? '' : 'checked';
     }
     return tab;
   }
