@@ -3,6 +3,14 @@ body {
   padding: 10px;
 }
 
+header {
+  position: sticky;
+  top: 0;
+  padding: 1em;
+  background: white;
+  z-index: 100;
+}
+
 .window {
   margin-bottom: 20px;
 }
@@ -14,6 +22,7 @@ body {
 .tab {
   padding-left: 20px;
   position: relative;
+  margin-bottom: 0.2em;
 }
 
 .tab:hover {
@@ -23,4 +32,8 @@ body {
 .tab button {
   position: absolute;
   right: 0;
+}
+
+.tab input[type=checkbox] {
+  pointer-events: none;
 }

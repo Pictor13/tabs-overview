@@ -12,8 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
 const header = document.getElementById('top');
 const tabsOverview = document.getElementById("tab-list");
 
-header.querySelector('#close-selected').onclick = () => {
-  tabsOverview?.querySelectorAll('.tab input:checked').forEach(check => closeTab(check.value, ()=>{}));
+header.querySelector('#close-selected-tabs').onclick = () => {
+  tabsOverview?.querySelectorAll('.tab input:checked').forEach(check => {
+    check.replaceWith(createElement(`<img src="spinner.gif" alt="Loading...">`));
+    closeTab(check.value, ()=>{});
+  });
   updateTabsOverview();
 }
 
@@ -48,7 +51,7 @@ function updateTabsOverview() {
     const tab = createElement(`<div class="tab" data-tab-id="${browserTab.id}" title="${browserTab.url}">
         <input type="checkbox" value="${browserTab.id}">
         <span></span>
-        <button>X Close</button>
+        <button><i>X</i> Close</button>
       </div>`
     );
     if (tab instanceof Element === false) {
@@ -69,8 +72,6 @@ function updateTabsOverview() {
   // process tabs rendering
 
   chrome.tabs.query({}, (tabs) => {
-    tabsOverview.innerHTML = "";
-
     const windowList = createElement('<ul id="windows">');
     windowList.add = addLiTo(windowList);
 
@@ -80,6 +81,7 @@ function updateTabsOverview() {
       getTabs(wind).add(tabElement);
       windowList.add(wind);
     });
+    tabsOverview.innerHTML = "";
     tabsOverview?.appendChild(windowList);
   });
 }

@@ -6,9 +6,19 @@
 </head>
 <body>
   <header id="top">
-    <button id="close-selected">Close selected</button>
+    <h1>Tabs Overview</h1>
+    <span>[current session]</span>
+
+    <ul class="controls">
+      <li>
+        <button id="close-selected-tabs"><i>X</i> Close selected</button>
+      </li>
+    </ul>
   </header>
-  <div id="tab-list"></div>
+
+  <div id="tab-list"><img src="spinner.gif" alt="Loading..."></div>
+
   <script src="tabs-overview.js"></script>
 </body>
+
 </html>
