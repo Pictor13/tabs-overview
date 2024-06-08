@@ -7,6 +7,10 @@ body {
   margin-bottom: 20px;
 }
 
+.tab:nth-child(2n+1) {
+  background: aliceblue;
+}
+
 .tab {
   padding-left: 20px;
   position: relative;
