@@ -6,9 +6,22 @@ body {
 header {
   position: sticky;
   top: 0;
-  padding: 1em;
-  background: white;
   z-index: 100;
+  background: white;
+  padding: 1em;
+  border-bottom: 1px solid #ccc;
+}
+
+header .controls li {
+  display: inline-block;
+}
+
+header .controls button {
+  padding: .4em;
+}
+
+i {
+  all: unset;
 }
 
 .window {
