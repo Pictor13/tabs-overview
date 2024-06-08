@@ -28,7 +28,7 @@ function updateTabsOverview() {
 
   const htmlEscape = str => (str+'').replaceAll('<','\<').replaceAll('"','\"');
 
-  const getWindow = id => windows[id] ?? createElement(`<div class="window" data-window-id="${id}">
+  const getWindow = id => windows[id] ?? createElement(`<div class="window" id="window${id}" data-window-id="${id}">
       <h2>Windows ${id}</h2>
       <ul class="tabs"></ul>
     </div>`
