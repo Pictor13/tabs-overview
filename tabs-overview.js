@@ -1,53 +1,86 @@
 document.addEventListener("DOMContentLoaded", () => {
-  updateTabList();
+  updateTabsOverview();
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "update-tab-list") {
-    updateTabList();
+    updateTabsOverview();
   }
 });
 
-function updateTabList() {
+const windows = {};
+
+function updateTabsOverview() {
+  // utilities
+  const getWindow = id => windows[id] ?? createElement(`<div class="window" data-window-id="${id}">
+      <h2>Windows ${id}</h2>
+      <ul class="tabs"></ul>
+    </div>`
+  );
+
+  const liElement = element => createElement('<li>').appendChild(element);
+  const addLiTo = list => element => list.appendChild(liElement(element))
+
+  const getTabs = wind => {
+    const list = wind.querySelector('ul');
+    list.add = addLiTo(list);
+    return list;
+  };
+
+  const getTab = browserTab => {
+    const tab = createElement(`<div class="tab" data-tab-id="${browserTab.id}" title="${browserTab.url}">
+        <button>X Close</button>
+        ${browserTab.title}
+      </div>`
+    );
+    tab.querySelector('button').onclick = () => closeTab(browserTab.id);
+
+    return tab;
+  }
+
+  // process tabs rendering
   chrome.tabs.query({}, (tabs) => {
-    const tabList = document.getElementById("tab-list");
-    tabList.innerHTML = "";
+    const tabsOverview = document.getElementById("tab-list");
+    tabsOverview.innerHTML = "";
 
-    let windows = {};
+    const windowList = createElement('<ul id="windows">');
+    windowList.add = addLiTo(windowList);
+
     tabs.forEach((tab) => {
-      if (!windows[tab.windowId]) {
-        windows[tab.windowId] = [];
-      }
-      windows[tab.windowId].push(tab);
+      const wind = windows[tab.windowId] = getWindow(tab.windowId);
+      const tabElement = getTab(tab);
+      getTabs(wind).add(tabElement);
+      windowList.add(wind);
     });
-
-    for (let windowId in windows) {
-      let windowDiv = document.createElement("div");
-      windowDiv.className = "window";
-      windowDiv.innerHTML = `<h2>Window ${windowId}</h2>`;
-
-      windows[windowId].forEach((tab) => {
-        let tabDiv = document.createElement("div");
-        tabDiv.className = "tab";
-        tabDiv.innerText = tab.title;
-        tabDiv.dataset.tabId = tab.id;
-        tabDiv.title = tab.url;
-
-        let closeButton = document.createElement("button");
-        closeButton.innerText = "Close";
-        closeButton.onclick = () => closeTab(tab.id);
-
-        tabDiv.appendChild(closeButton);
-        windowDiv.appendChild(tabDiv);
-      });
-
-      tabList.appendChild(windowDiv);
-    }
+    tabsOverview?.appendChild(windowList);
   });
 }
 
 function closeTab(tabId) {
   chrome.tabs.remove(tabId, () => {
-    updateTabList();
+    updateTabsOverview();
   });
+}
+
+
+
+/** UTILS */
+
+/**
+ * @param {String} HTML representing a single element.
+ * @param {Boolean} flag representing whether or not to trim input whitespace, defaults to true.
+ */
+function createElement(html, trim = true) {
+  // Process the HTML string.
+  html = trim ? html.trim() : html;
+  // if (!html) return null;
+
+  // Then set up a new template element.
+  const template = document.createElement('template');
+  template.innerHTML = html;
+  const result = template.content.children;
+
+  // Then return either an HTMLElement or HTMLCollection,
+  // based on whether the input HTML had one or more roots.
+  return result[0];
 }

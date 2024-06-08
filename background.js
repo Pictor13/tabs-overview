@@ -40,9 +40,9 @@ function openOverviewTab() {
   chrome.tabs.query({}, (tabs) => {
     let overviewFound = false;
     tabs.forEach((tab) => {
-      console.log(`Pass thru tab: ${tab.id} - ${tab.url}`);
+      // console.log(`Pass thru tab: ${tab.id} - ${tab.url}`);
       if ((tab.url+'').includes(`extension://`) && (tab.url+'').endsWith(`/tabs-overview.html`)) {
-        console.log(`TabsOverview already open, focus tab: ${tab.id} - ${tab.url}`);
+        // console.log(`TabsOverview already open, focus tab: ${tab.id} - ${tab.url}`);
         browser.tabs.update(tab.id, {active: true});
         overviewFound = true;
       }

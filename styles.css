@@ -12,6 +12,10 @@ body {
   position: relative;
 }
 
+.tab:hover {
+  background-color: yellow;
+}
+
 .tab button {
   position: absolute;
   right: 0;
